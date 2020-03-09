@@ -14,8 +14,7 @@
   let amazonUrl = req.body.amaUrl;
   
     console.dir("body of amazonUrl::::::::::" + amazonUrl)
-// let bookingUrl = 'https://www.amazon.com/dp/B07DHY5R34/ref=sspa_dk_detail_3?psc=1&spLa=ZW5jcnlwdGVkUXVhbGlmaWVyPUEyU1VEVzlUOUYxRTczJmVuY3J5cHRlZElkPUEwNTQ4ODE2U1FQRkE4QkdEUzhRJmVuY3J5cHRlZEFkSWQ9QTAxMDI1NTRZOExERlUzOTZZWkkmd2lkZ2V0TmFtZT1zcF9kZXRhaWwyJmFjdGlvbj1jbGlja1JlZGlyZWN0JmRvTm90TG9nQ2xpY2s9dHJ1ZQ==';
- 
+
     console.dir("body of bookingUrl::::::::::" + amazonUrl)
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
@@ -48,11 +47,6 @@
     res.send(hotelData)
     console.dir(hotelData);
     return hotelData;
-  
- //res.set('Content-Type', 'text/plain')
- 
-
-
 });
 
 
