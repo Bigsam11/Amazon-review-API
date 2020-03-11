@@ -1,13 +1,15 @@
  const express = require('express');
  const bodyParser = require('body-parser');
  const puppeteer = require('puppeteer');
+ const cors = require('cors')
  
  
  app = express();
-
  app.use(bodyParser.json())
  app.use(bodyParser.urlencoded({ extended: false }))
 
+ app.use(cors())
+ 
 
  app.post('/webscrape',  function(req, res) {
   
@@ -25,35 +27,37 @@
     const page = await browser.newPage();
     await page.setViewport({ width: 1920, height: 926 });
     await page.goto(amazonUrl);
-    await page.waitFor(3000);
+    await page.waitFor(40000);
     console.dir("AmazonUrl::::::::::" + amazonUrl)
        
     // get hotel details
-    let hotelData = await page.evaluate(() => {
-        let hotels = [];
+    let reviewData = await page.evaluate(() => {
+        let reviews = [];
         // get the hotel elements
-        let hotelsElms = document.querySelectorAll('div.aok-relative');
+        let reviewElms = document.querySelectorAll('div.aok-relative');
         // get the hotel data
-        console.dir("hotelsElms::::::::::" + hotelsElms)
-        hotelsElms.forEach((hotelelement) => {
-            let hotelJson = {};
+        console.dir("hotelsElms::::::::::" + reviewElms)
+        reviewElms.forEach((reviewelement) => {
+            let reviewJson = {};
             try {
-                hotelJson.name = hotelelement.querySelector('span.a-profile-name').innerText;
-                hotelJson.reviews = hotelelement.querySelector('div.review-text-content').innerText;
-                hotelJson.rating = hotelelement.querySelector('.review-rating').innerText;
-                hotelJson.publishedAt = hotelelement.querySelector('span.review-date').innerText;
+              reviewJson.name = reviewelement.querySelector('span.a-profile-name').innerText;
+              reviewJson.reviews = reviewelement.querySelector('div.review-text-content').innerText;
+              reviewJson.rating = reviewelement.querySelector('.review-rating').innerText;
+              reviewJson.publishedAt = reviewelement.querySelector('span.review-date').innerText;
             }
             catch (exception){
 
             }
-            hotels.push(hotelJson);
+            reviews.push(reviewJson);
         });
-        return hotels;
+        return reviews;
     });
     //res.send(hotelData)
-    res.send(hotelData)
+    //res.send(hotelData)
+    console.dir(reviewData);
+    res.status(201).json(reviewData);
 
-    console.dir(hotelData);
+    
 })();
 
 });
