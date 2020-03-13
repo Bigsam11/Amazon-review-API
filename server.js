@@ -18,12 +18,15 @@
     
     (async () => {
     console.dir("body of bookingUrl::::::::::" + amazonUrl)
-    const browser = await puppeteer.launch({
-        'args' : [
-          '--no-sandbox',
-          '--disable-setuid-sandbox'
-        ]
-      });
+//     const browser = await puppeteer.launch({
+//         'args' : [
+//           '--no-sandbox',
+//           '--disable-setuid-sandbox'
+//         ]
+//       });
+    const browser = await puppeteer.connect({
+    browserWSEndpoint: 'wss://chrome.browserless.io/'
+    });
     const page = await browser.newPage();
     await page.setViewport({ width: 1920, height: 926 });
     await page.goto(amazonUrl);
